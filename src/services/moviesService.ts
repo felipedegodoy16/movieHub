@@ -11,6 +11,18 @@ export async function getTopRatedMovies(): Promise<Movie[]> {
     return response.data.results;
 }
 
+export async function getNowPlayingMovies(): Promise<Movie[]> {
+    const response = await tmdbApi.get('/movie/now_playing');
+    return response.data.results;
+}
+
+export async function getHighlightMovie(): Promise<Movie> {
+    const nowPlaying = await getNowPlayingMovies();
+
+    const response = await tmdbApi.get(`/movie/${nowPlaying[0].id}/images`);
+    return response.data;
+}
+
 export async function searchMovies(query: string): Promise<Movie[]> {
     const response = await tmdbApi.get('/search/movie', {
         params: { query },
