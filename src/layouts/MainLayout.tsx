@@ -6,15 +6,15 @@ import './../index.css';
 function MainLayout() {
     return (
         <>
-            <header className="bg-slate-900 p-4 w-full text-white sticky inset-0 z-50">
-                <div className="flex gap-4 items-center justify-between max-w-350 mx-auto">
+            <header className="bg-slate-900 w-full text-white sticky inset-0 z-50">
+                <div className="flex gap-4 items-center justify-between max-w-350 mx-auto p-4">
                     <div className="flex items-center gap-8">
-                        {/* <nav>
-                            <ul className="flex flex-col gap-4 text-lg">
+                        {/* <nav className="bg-slate-900 absolute left-0 top-[59px] h-[calc(100vh-59px)] w-[25%]">
+                            <ul className="flex flex-col text-lg">
                                 <li className="w-full">
                                     <Link
                                         to="/"
-                                        className="w-full px-4 py-2 cursor-pointer hover:bg-slate-800"
+                                        className="w-full block px-4 py-2 cursor-pointer hover:bg-slate-800"
                                     >
                                         Home
                                     </Link>
@@ -22,9 +22,17 @@ function MainLayout() {
                                 <li className="w-full">
                                     <Link
                                         to="/search"
-                                        className="w-full px-4 py-2 cursor-pointer hover:bg-slate-800"
+                                        className="w-full block px-4 py-2 cursor-pointer hover:bg-slate-800"
                                     >
                                         Search
+                                    </Link>
+                                </li>
+                                <li className="w-full">
+                                    <Link
+                                        to="/drawer"
+                                        className="w-full block px-4 py-2 cursor-pointer hover:bg-slate-800"
+                                    >
+                                        Drawer
                                     </Link>
                                 </li>
                             </ul>
@@ -47,7 +55,7 @@ function MainLayout() {
                 style={{
                     backgroundImage: `radial-gradient(#62748e80, #0f172b80), url(${texture})`,
                 }}
-                className="bg-cover bg-center bg-no-repeat pb-4"
+                className="bg-cover bg-center bg-no-repeat pb-4 min-h-[calc(100vh-59px)]"
             >
                 <Outlet />
             </main>
