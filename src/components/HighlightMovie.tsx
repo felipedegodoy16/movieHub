@@ -5,7 +5,11 @@ import {
 } from '../services/moviesService';
 
 function HighlightMovie() {
-    const { data, isLoading, error } = useQuery({
+    const {
+        data: dataHighlight,
+        isLoading: isLoadingHighlight,
+        error: errorHighlight,
+    } = useQuery({
         queryKey: ['highlight-movie'],
         queryFn: getHighlightMovie,
     });
@@ -19,19 +23,17 @@ function HighlightMovie() {
         queryFn: getNowPlayingMovies,
     });
 
-    if (isLoading) return <p>Carregando...</p>;
-    if (error) return <p>Erro ao buscar filmes</p>;
+    if (isLoadingHighlight) return <p>Carregando...</p>;
+    if (errorHighlight) return <p>Erro ao buscar filmes</p>;
 
     if (nowPlayingLoading) return <p>Carregando...</p>;
     if (nowPlayingError) return <p>Erro ao buscar filmes</p>;
-
-    console.log(data, nowPlayingData);
 
     return (
         <div
             className="w-full h-[600px] mb-6 relative"
             style={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/original${data?.backdrops[0].file_path})`,
+                backgroundImage: `url(https://image.tmdb.org/t/p/original${dataHighlight?.backdrops[0].file_path})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
             }}
