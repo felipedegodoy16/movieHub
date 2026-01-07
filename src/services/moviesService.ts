@@ -1,14 +1,17 @@
 import { tmdbApi } from './tmdbApi';
 import type { Movie } from '../types/Movie';
+import type { MoviesData } from '../types/MoviesData';
 
-export async function getPopularMovies(): Promise<Movie[]> {
-    const response = await tmdbApi.get('/movie/popular');
-    return response.data.results;
+export async function getPopularMovies(page: number = 1): Promise<MoviesData> {
+    const response = await tmdbApi.get('/movie/popular', {
+        params: { page },
+    });
+    return response.data;
 }
 
-export async function getTopRatedMovies(): Promise<Movie[]> {
+export async function getTopRatedMovies(): Promise<MoviesData> {
     const response = await tmdbApi.get('/movie/top_rated');
-    return response.data.results;
+    return response.data;
 }
 
 export async function getNowPlayingMovies(): Promise<Movie[]> {
@@ -23,10 +26,13 @@ export async function getHighlightMovie(): Promise<Movie> {
     return response.data;
 }
 
-export async function searchMovies(query: string): Promise<Movie[]> {
+export async function searchMovies(
+    query: string,
+    page: number = 1
+): Promise<MoviesData> {
     const response = await tmdbApi.get('/search/movie', {
-        params: { query },
+        params: { query, page },
     });
 
-    return response.data.results;
+    return response.data;
 }

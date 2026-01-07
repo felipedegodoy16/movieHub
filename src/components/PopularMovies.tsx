@@ -5,7 +5,7 @@ import OneLineList from '../components/OneLineList';
 function PopularMovies() {
     const { data, isLoading, error } = useQuery({
         queryKey: ['popular-movies'],
-        queryFn: getPopularMovies,
+        queryFn: () => getPopularMovies(),
     });
 
     if (isLoading) return <p>Carregando...</p>;
@@ -19,7 +19,7 @@ function PopularMovies() {
                     Ver tudo
                 </span>
             </div>
-            <OneLineList items={data || []} />
+            <OneLineList items={data?.results || []} />
         </div>
     );
 }

@@ -19,7 +19,7 @@ function TopRatedMovies() {
                     Ver tudo
                 </span>
             </div>
-            <OneLineList items={data || []} />
+            <OneLineList items={data?.results || []} />
         </div>
     );
 }

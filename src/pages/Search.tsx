@@ -44,19 +44,22 @@ function renderMovies(item: Movie) {
 }
 
 function Search() {
+    const [page, setPage] = useState(1);
     const [query, setQuery] = useState('');
     const [textSearch, setTextSearch] = useState('Procurar por um filme.');
 
     const { data: dataSearch, isLoading: isLoadingSearch } = useQuery({
-        queryKey: ['search-movies', query],
-        queryFn: () => searchMovies(query),
+        queryKey: ['search-movies', query, page],
+        queryFn: () => searchMovies(query, page),
         enabled: !!query,
     });
 
     const { data: dataPopular, isLoading: isLoadingPopular } = useQuery({
-        queryKey: ['popular-movies'],
-        queryFn: getPopularMovies,
+        queryKey: ['popular-movies', page],
+        queryFn: () => getPopularMovies(page),
     });
+
+    console.log(dataSearch);
 
     return (
         <div className="max-w-350 mx-auto px-4 pt-6">
@@ -101,14 +104,31 @@ function Search() {
 
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
                 {dataSearch
-                    ? dataSearch?.map(
-                          (item: Movie) =>
-                              item.vote_average > 0 && renderMovies(item)
+                    ? dataSearch?.results?.map((item: Movie) =>
+                          renderMovies(item)
                       )
-                    : dataPopular?.map(
-                          (item: Movie) =>
-                              item.vote_average > 0 && renderMovies(item)
+                    : dataPopular?.results?.map((item: Movie) =>
+                          renderMovies(item)
                       )}
+            </div>
+            <div className="w-full flex justify-center items-center gap-4 mt-6">
+                <button
+                    className="bg-slate-700/50 text-slate-100 text-sm px-4 py-2 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.3)] hover:bg-slate-600/50 transition-colors cursor-pointer"
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 1}
+                >
+                    Anterior
+                </button>
+                <span className="text-slate-100 text-sm font-semibold tracking-wider">
+                    Página {page}
+                </span>
+                <button
+                    className="bg-slate-700/50 text-slate-100 text-sm px-4 py-2 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.3)] hover:bg-slate-600/50 transition-colors cursor-pointer"
+                    onClick={() => setPage(page + 1)}
+                    disabled={page === dataPopular?.total_pages}
+                >
+                    Proximo
+                </button>
             </div>
         </div>
     );
