@@ -33,7 +33,7 @@ function HighlightMovie() {
         <div
             className="w-full h-[600px] mb-6 relative"
             style={{
-                backgroundImage: `url(https://image.tmdb.org/t/p/original${dataHighlight?.backdrops[0].file_path})`,
+                backgroundImage: `url(https://image.tmdb.org/t/p/original${dataHighlight?.backdrops[0]?.file_path})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
             }}

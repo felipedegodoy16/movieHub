@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Movie } from '../types/Movie';
+import CardMovie from './CardMovie';
 
 interface Props {
     items: Movie[];
@@ -41,7 +42,7 @@ function OneLineList({ items }: Props) {
                         src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                         alt={item.title}
                         className="rounded-lg shadow-[2px_8px_12px_1px_rgba(0,0,0,0.6)]
-"
+                "
                     />
                     <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/80 to-transparent opacity-0 hover:opacity-100 transition-all duration-300 ease-in-out flex justify-center">
                         <div className="p-4 flex flex-col justify-end">
