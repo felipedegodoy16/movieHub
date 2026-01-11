@@ -26,6 +26,7 @@ function Search() {
                 <input
                     value={query}
                     onChange={(e) => {
+                        setPage(1);
                         setQuery(e.target.value);
                         if (e.target.value) {
                             setTextSearch(

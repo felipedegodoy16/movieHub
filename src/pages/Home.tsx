@@ -7,6 +7,7 @@ function Home() {
     useEffect(() => {
         document.title = 'MovieHub';
     }, []);
+
     return (
         <>
             <HighlightMovie />

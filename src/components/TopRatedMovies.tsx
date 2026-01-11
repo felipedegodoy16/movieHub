@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function TopRatedMovies() {
     const { data, isLoading, error } = useQuery({
         queryKey: ['top-rated-movies'],
-        queryFn: getTopRatedMovies,
+        queryFn: () => getTopRatedMovies(),
     });
 
     if (isLoading) return <p>Carregando...</p>;

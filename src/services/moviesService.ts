@@ -24,7 +24,7 @@ export async function getNowPlayingMovies(): Promise<Movie[]> {
 export async function getHighlightMovie(): Promise<Movie> {
     const nowPlaying = await getNowPlayingMovies();
 
-    const response = await tmdbApi.get(`/movie/${nowPlaying[1].id}/images`);
+    const response = await tmdbApi.get(`/movie/${nowPlaying[0].id}/images`);
     return response.data;
 }
 
@@ -38,3 +38,14 @@ export async function searchMovies(
 
     return response.data;
 }
+
+export const discoverMovies = async () => {
+    const response = await tmdbApi.get('/discover/movie', {
+        params: {
+            sort_by: 'popularity.desc',
+            include_adult: false,
+        },
+    });
+
+    return response.data;
+};

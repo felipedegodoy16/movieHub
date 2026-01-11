@@ -31,7 +31,7 @@ function HighlightMovie() {
 
     return (
         <div
-            className="w-full h-[600px] mb-6 relative"
+            className="w-full h-[calc(100vh-59px)] mb-6 relative"
             style={{
                 backgroundImage: `url(https://image.tmdb.org/t/p/original${dataHighlight?.backdrops[0]?.file_path})`,
                 backgroundSize: 'cover',
@@ -40,7 +40,10 @@ function HighlightMovie() {
         >
             <div className="w-full h-full bg-linear-to-t from-black/70 to-black/0"></div>
             <div className="absolute right-4 bottom-4 flex flex-col gap-2">
-                <div className="text-white flex flex-col gap-2">
+                <span className="text-slate-100 text-2xl font-bold tracking-wider text-right">
+                    {nowPlayingData?.[0].title}
+                </span>
+                <div className="text-slate-100 flex flex-col gap-2 text-right">
                     <span className="flex items-center justify-end gap-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -54,14 +57,26 @@ function HighlightMovie() {
                         <span>
                             {nowPlayingData?.[0].vote_average.toFixed(1)}
                         </span>
-                        <span className="w-1 h-1 bg-white rounded-full"></span>
+                        <span className="w-1 h-1 bg-slate-100 rounded-full"></span>
                         <span>
                             {nowPlayingData?.[0].release_date.slice(0, 4)}
                         </span>
                     </span>
                 </div>
                 <div className="flex gap-2">
-                    <button className="bg-slate-700 text-slate-100 font-semibold tracking-wider border-2 border-slate-500 px-4 py-2 rounded-md shadow-[inset_0_0_1px_1px_#0f172b,0_3px_5px_1px_rgba(0,0,0,0.8),0_3px_5px_1px_rgba(0,0,0,0.8)] cursor-pointer flex gap-2 items-center hover:bg-slate-800 hover:border-slate-700 transition-colors">
+                    <button
+                        // onClick={() => {
+                        //     setFavorites((prev: Movie[] | null) => [
+                        //         ...prev,
+                        //         nowPlayingData?.[0],
+                        //     ]);
+                        //     localStorage.setItem(
+                        //         'favoriteMovies',
+                        //         JSON.stringify(favorites)
+                        //     );
+                        // }}
+                        className="bg-slate-700 text-slate-100 font-semibold tracking-wider border-2 border-slate-500 px-4 py-2 rounded-md shadow-[inset_0_0_1px_1px_#0f172b,0_3px_5px_1px_rgba(0,0,0,0.8),0_3px_5px_1px_rgba(0,0,0,0.8)] cursor-pointer flex gap-2 items-center hover:bg-slate-800 hover:border-slate-700 transition-colors"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="24px"
