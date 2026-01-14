@@ -1,15 +1,32 @@
 import type { Movie } from '../types/Movie';
 
-function CardMovie({ item }: { item: Movie }) {
+interface Props {
+    item: Movie;
+    onClick?: (e: HTMLDivElement) => void;
+}
+
+function CardMovie({ item, onClick }: Props) {
     return (
         <div
             key={item.id}
-            className="flex flex-col cursor-pointer hover:scale-105 transition-all relative"
+            className="flex flex-col cursor-pointer hover:scale-105 transition-all relative rounded-lg overflow-hidden shadow-xl"
+            onClick={(e) => onClick?.(e.currentTarget)}
         >
+            <div className="checked-movie absolute opacity-0 inset-0 w-full h-full flex items-center justify-center bg-black/50">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="96px"
+                    viewBox="0 -960 960 960"
+                    width="96px"
+                    className="fill-slate-100"
+                >
+                    <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+                </svg>
+            </div>
             <img
                 src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                 alt={item.title}
-                className="rounded-lg shadow-[2px_8px_12px_1px_rgba(0,0,0,0.6)] min-h-full"
+                className="min-h-full"
             />
             <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/80 to-transparent opacity-0 hover:opacity-100 transition-all duration-300 ease-in-out flex justify-center">
                 <div className="p-4 flex flex-col justify-end">

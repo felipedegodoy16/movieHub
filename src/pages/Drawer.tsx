@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 async function getRandomMovie(movies: Movie[], timer: number) {
     const randomIndex = Math.floor(Math.random() * movies.length);
-    // const svg = document.querySelector('svg');
     const counter = document.getElementById('counter');
     const modal = document.getElementById('modal-counter');
 
@@ -29,6 +28,8 @@ async function getRandomMovie(movies: Movie[], timer: number) {
 
 function Drawer() {
     const [timer, setTimer] = useState(1);
+    const [listRandomMovies, setListRandomMovies] = useState<Movie[]>([]);
+
     const { data } = useQuery({
         queryKey: ['discover-movies'],
         queryFn: discoverMovies,
@@ -55,7 +56,10 @@ function Drawer() {
                     </select>
                     <button
                         onClick={() => {
-                            getRandomMovie(data?.results, timer);
+                            if (listRandomMovies.length) {
+                                getRandomMovie(listRandomMovies, timer);
+                                setListRandomMovies([]);
+                            } else getRandomMovie(data?.results, timer);
                         }}
                         className="bg-slate-700 text-slate-100 font-semibold tracking-wider border-2 border-slate-500 px-4 py-2 rounded-md shadow-[inset_0_0_1px_1px_#0f172b,0_3px_5px_1px_rgba(0,0,0,0.8),0_3px_5px_1px_rgba(0,0,0,0.8)] cursor-pointer flex gap-2 items-center hover:bg-slate-800 hover:border-slate-700 transition-colors"
                     >
@@ -72,9 +76,61 @@ function Drawer() {
                     </button>
                 </div>
             </header>
+
+            <div className="relative mb-6">
+                <input
+                    // value={query}
+                    // onChange={(e) => {
+                    //     setPage(1);
+                    //     setQuery(e.target.value);
+                    //     if (e.target.value) {
+                    //         setTextSearch(
+                    //             `Resultados para "${e.target.value}"`
+                    //         );
+                    //     } else {
+                    //         setTextSearch('Procurar por um filme.');
+                    //     }
+                    // }}
+                    placeholder="Buscar filme..."
+                    className="bg-slate-700/50 w-full text-lg text-slate-200 pl-4 pr-14 py-2 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.3)] focus:outline-none focus:bg-slate-600/50 transition-colors"
+                />
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="32px"
+                    viewBox="0 -960 960 960"
+                    width="32px"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 fill-slate-100/50"
+                >
+                    <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                </svg>
+            </div>
+
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
                 {data?.results.map((movie: Movie) => (
-                    <CardMovie key={movie.id} item={movie} />
+                    <CardMovie
+                        key={movie.id}
+                        item={movie}
+                        onClick={(e: HTMLDivElement) => {
+                            e.classList.toggle('border-4');
+                            e.classList.toggle('border-slate-100');
+                            e.querySelector('.checked-movie')!.classList.toggle(
+                                'opacity-0'
+                            );
+                            if (e.classList.contains('border-4'))
+                                setListRandomMovies([
+                                    ...listRandomMovies,
+                                    movie,
+                                ]);
+                            else
+                                setListRandomMovies(
+                                    listRandomMovies.filter(
+                                        (item) => item.id !== movie.id
+                                    )
+                                );
+
+                            console.log(listRandomMovies);
+                        }}
+                    />
                 ))}
             </div>
 
