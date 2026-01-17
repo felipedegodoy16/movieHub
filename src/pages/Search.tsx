@@ -87,7 +87,12 @@ function Search() {
                     <button
                         className="bg-slate-700/50 text-slate-100 text-sm px-4 py-2 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.3)] hover:bg-slate-600/50 transition-colors cursor-pointer"
                         onClick={() => setPage(page + 1)}
-                        disabled={page === dataPopular?.total_pages}
+                        disabled={
+                            page ===
+                            (dataSearch
+                                ? dataSearch?.total_pages
+                                : dataPopular?.total_pages)
+                        }
                     >
                         Proximo
                     </button>

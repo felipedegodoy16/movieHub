@@ -41,7 +41,10 @@ function MainLayout() {
                             <span className="w-[40px] h-[3px] block bg-white relative rounded-full before:content-[''] before:w-[40px] before:h-[3px] before:bg-white before:absolute before:top-[-12px] before:left-0 before:rounded-full after:content-[''] after:w-[40px] after:h-[3px] after:bg-white after:absolute after:bottom-[-12px] after:left-0 after:rounded-full"></span>
                         </div>
 
-                        <Link to="/" className="max-w-[150px] cursor-pointer">
+                        <Link
+                            to="/drawer"
+                            className="max-w-[150px] cursor-pointer"
+                        >
                             <img src={moviehub} alt="Logo MovieHub" />
                         </Link>
                     </div>

@@ -39,11 +39,12 @@ export async function searchMovies(
     return response.data;
 }
 
-export const discoverMovies = async () => {
+export const discoverMovies = async (page: number = 1) => {
     const response = await tmdbApi.get('/discover/movie', {
         params: {
             sort_by: 'popularity.desc',
             include_adult: false,
+            page,
         },
     });
 
