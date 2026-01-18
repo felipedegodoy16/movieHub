@@ -9,7 +9,7 @@ function CardMovie({ item, onClick }: Props) {
     return (
         <div
             key={item.id}
-            className="flex flex-col cursor-pointer hover:scale-105 transition-all relative rounded-lg overflow-hidden shadow-xl"
+            className="flex flex-col cursor-pointer lg:hover:scale-105 md:hover:scale-100 transition-all relative rounded-lg overflow-hidden shadow-xl"
             onClick={(e) => onClick?.(e.currentTarget)}
         >
             <div className="checked-movie absolute opacity-0 inset-0 w-full h-full flex items-center justify-center bg-black/50">

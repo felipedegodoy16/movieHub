@@ -91,6 +91,53 @@ async function getRandomMovie(movies: Movie[], timer: number) {
     });
 }
 
+function returnSelectedMovie(
+    movie: Movie,
+    listRandomMovies: Movie[],
+    setListRandomMovies: (listRandomMovies: Movie[]) => void
+) {
+    const div = document.createElement('div');
+    div.classList.add('w-full');
+    div.classList.add('p-2');
+    div.classList.add('bg-slate-800');
+    div.classList.add('text-slate-100');
+    div.classList.add('rounded-lg');
+    div.classList.add('flex');
+    div.classList.add('items-center');
+    div.classList.add('justify-between');
+
+    const span = document.createElement('span');
+    span.textContent = movie.title;
+
+    const svg = document.createElement('svg');
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('viewBox', '0 -960 960 960');
+    svg.setAttribute(
+        'class',
+        'w-6 h-6 cursor-pointer fill-slate-100 hover:fill-red-500 transition-all duration-300 ease-in-out'
+    );
+    svg.addEventListener('click', (e: MouseEvent) => {
+        setListRandomMovies(
+            listRandomMovies.filter((item) => item.id !== movie.id)
+        );
+
+        const selectedMovies = document.getElementById('selected-movies');
+        selectedMovies?.classList.toggle('max-h-0');
+        selectedMovies?.classList.toggle('max-h-96');
+        selectedMovies?.classList.toggle('mt-2');
+
+        (e.currentTarget as HTMLElement).parentElement?.remove();
+    });
+    svg.innerHTML = `
+    <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+    `;
+
+    div.appendChild(span);
+    div.appendChild(svg);
+
+    return div;
+}
+
 function loadMovies(
     movie: Movie,
     listRandomMovies: Movie[],
@@ -100,20 +147,21 @@ function loadMovies(
         <CardMovie
             key={movie.id}
             item={movie}
-            onClick={(e: HTMLDivElement) => {
-                e.classList.toggle('border-4');
-                e.classList.toggle('border-slate-100');
-                e.querySelector('.checked-movie')!.classList.toggle(
-                    'opacity-0'
-                );
-                if (e.classList.contains('border-4'))
-                    setListRandomMovies([...listRandomMovies, movie]);
-                else
-                    setListRandomMovies(
-                        listRandomMovies.filter((item) => item.id !== movie.id)
-                    );
+            onClick={() => {
+                if (listRandomMovies.some((item) => item.id === movie.id))
+                    return;
 
-                console.log(listRandomMovies);
+                const selectedMovies =
+                    document.getElementById('selected-movies');
+                selectedMovies?.appendChild(
+                    returnSelectedMovie(
+                        movie,
+                        listRandomMovies,
+                        setListRandomMovies
+                    )
+                );
+
+                setListRandomMovies([...listRandomMovies, movie]);
             }}
         />
     );
@@ -197,6 +245,29 @@ function Drawer() {
                 >
                     <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
                 </svg>
+            </div>
+
+            <div className="mb-6 flex gap-2 flex-col">
+                <div className="text-slate-100 py-2 px-4 w-full bg-slate-700/50 rounded-md shadow-[0_2px_3px_1px_rgba(0,0,0,0.3)] text-lg font-semibold flex flex-col">
+                    <span
+                        className="text-slate-100 w-full cursor-pointer"
+                        onClick={() => {
+                            if (listRandomMovies.length === 0) return;
+
+                            const selectedMovies =
+                                document.getElementById('selected-movies');
+                            selectedMovies?.classList.toggle('max-h-0');
+                            selectedMovies?.classList.toggle('max-h-96');
+                            selectedMovies?.classList.toggle('mt-2');
+                        }}
+                    >
+                        Filmes selecionados
+                    </span>
+                    <div
+                        id="selected-movies"
+                        className="max-h-0 flex overflow-hidden items-center gap-2 flex-col transition-all duration-500 ease-in-out"
+                    ></div>
+                </div>
             </div>
 
             {isLoadingDiscover ? (
